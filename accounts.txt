@@ -1,0 +1,9 @@
+buck,tug,ou
+Bubby,bub@bub.com,goop
+Chubbum,Bugg@chub.com,hoop
+PUppy,Pup@pup.com,ug
+Gorgon,thedefiler@defiler.com,defile
+bubby,bubby@buby.com,goop
+God,god@god.com,boop
+gup,gup@gup.com,pass
+peter,peter.twickler@gmail.com,12

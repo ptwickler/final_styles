@@ -1,0 +1,154 @@
+body {
+   /* background-color: #cadef8;*/
+    border: 1px solid yellow;
+}
+
+img.banner {
+    padding: 2px;
+    position: absolute;
+    border: 1px solid blue;
+    top: 5px;
+    left: 200px;
+
+}
+
+div.banner {
+    width: 20%;
+    margin: auto;
+    border: 1px solid black;
+    positon: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+
+
+.product_display {
+    border: 1px solid red;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    float: left;
+    clear: right;
+    visibility: hidden;
+
+}
+
+.add_to_cart {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.prod_price, .prod_weight, .prod_name {
+    text-align: center;
+}
+
+.prod_img {
+    width: 200px;
+    height: 200px;
+}
+
+.prod_img img {
+    width: 100%;
+    height:100%;
+}
+
+input.disp_name {
+    width: 100%;
+    outline: 0;
+    border: 0;
+    display: inline-block;
+    text-align: center;
+}
+
+
+
+
+.total_price {
+    width: 20%;
+    position: relative;
+
+}
+
+.cart_display {
+   border: 1px solid orange;
+    margin-botton: 30px;
+    width: 10%;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+
+
+
+}
+
+.checkout_list {
+    border: 0;
+    background-color: #cadef8;
+}
+
+span.require_auth {
+    color: red;
+    font-weight: bold;
+}
+
+.checkout_name {
+
+
+}
+
+.checkout_quantity {
+
+    text-align: center;
+
+}
+
+
+
+table {
+    border-collapse: collapse;
+}
+td {
+    padding: 4px 0 4px 0;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-collapse: collapse;
+}
+
+form.login {
+    border: 1px solid yellow;
+    width: 10%;
+    position: relative;
+    float: right;
+    clear: both;
+
+}
+
+div.sign_out {
+    border: 1px solid blue;
+    position: absolute;
+    top: 200px;
+    left: 10px;
+
+
+}
+
+.wrapper {
+    border: 1px solid palevioletred;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    clear: both;
+}
+
+div {
+    border: 4px solid #800080;
+
+}
+
+div.login {
+    border: 1px solid red;
+}
