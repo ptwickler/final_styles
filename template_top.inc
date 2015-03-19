@@ -31,10 +31,14 @@ if (isset($_SESSION['sign_in']) && $_SESSION['sign_in'] == 1) {
 </div><!--end div.cart_display-->';
     }
 }
-elseif (!isset($_SESSION['sign_in'])) {
-    print  '<input name="checkout_button" type="text" readonly ><span class="require_auth">Sign in to Purchase Items</span><br></form>';
 
-}?>
+elseif (!isset($_SESSION['sign_in'])) {
+    print  '<input name="checkout_button" type="text" readonly ><span class="require_auth">Sign in to Purchase Items</span><br></form></div><!--end div.cart_display-->';
+
+}
+
+echo '<div class="banner"><img class="banner" src="img/banner.jpg"></div><!--end div.banner-->';
+?>
 <div class="login">
     <form class="login" value="Sign In" action="login.php?log=1" method="POST">
         <label for="username">Name</label><br>
@@ -43,14 +47,15 @@ elseif (!isset($_SESSION['sign_in'])) {
         <input type="password" class="login" name="password" size="20"><br>
         <input type="submit" value="Sign In">
     </form>
-</div><!--end div.login-->
+
 <div class="sign_out">
     <form class="login" action="index.php?out=1" method="GET">
         <input type="text" name="out" value="1" hidden>
         <input type="submit" value="Sign Out">
     </form>
 </div><!--end div.sign_out-->
-    <div class="banner"><img class="banner" src="img/banner.jpg"></div><!--end div.banner-->
+</div><!--end div.login-->
+
 
 
 

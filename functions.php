@@ -22,7 +22,7 @@ function confirm_email($user) {
             $user_match = preg_match('/^' . $user . '$/', $line[$c], $matches);
 
             if ($matches) {
-                $user_email = $line[2]; //This is the index of the user info that stores the email address.
+                $user_email = $line[1]; //This is the index of the user info that stores the email address.
                 $to = $user_email;
 
                 $email_subject = $user . "-- Your Purchase from Crystals, Charms, and Coffee " . date("F d, Y h:i a");
@@ -39,9 +39,12 @@ function confirm_email($user) {
 
                 $message .= '</tbody></table><div class="total_price"> Your Total: $' .$total . '.00</div></body></html>';
 
+                $headers  = "From: peter.twickler@gmail.com" . "\r\n";
+                $headers .= 'MIME-Version: 1.0' . "\n";
+                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
+                $mail = mail($to, $email_subject, $message,$headers);
 
-                $mail = mail($to, $email_subject, $message, "From: peter.twickler@gmail.com");
 
                 if ($mail) {
                     echo "Thank you for your purchase, ". $user . ". An email with your purhcase receipt has been sent to your email address.<br><br>
@@ -156,7 +159,7 @@ function new_user($user,$pass,$email) {
 
     $user_in = implode(",",$user_values);
 
-    $user_in_line = $user_in . PHP_EOL;
+    $user_in_line = PHP_EOL . $user_in;
 
     fwrite($users_list,$user_in_line);
 
@@ -214,7 +217,7 @@ function user_cred($username,$pw) {
                         ob_clean();
                         header("Location: " . $url) or die("didn't redirect from login");
 
-                        echo "logging in no worries";
+                        //echo "logging in no worries";
                     }
 
                     elseif (!$match) {
@@ -225,7 +228,7 @@ function user_cred($username,$pw) {
 
             elseif(!$matches){
                 if ($g==1) break;
-                echo '<html><div>You do not seem to be registered. Click <a href="login.php?register_new=1">here</a> to register.</div></html>';
+                echo '<div>You do not seem to be registered. Click <a href="login.php?register_new=1">here</a> to register.</div>';
                 $g++; // Increments counter to control the number of times the above verbiage and link are displayed.
 
             }

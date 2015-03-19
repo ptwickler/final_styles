@@ -7,3 +7,7 @@ bubby,bubby@buby.com,goop
 God,god@god.com,boop
 gup,gup@gup.com,pass
 peter,peter.twickler@gmail.com,12
+John,peter.twickler@gmail.com,pass
+John,utgardsloki@yahoo.com,pass
+Hugg,peter.twickler@gmail.com,pass
+Joo,uoouo@ljl.com,pass

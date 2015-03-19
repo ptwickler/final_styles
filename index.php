@@ -68,15 +68,15 @@ for ($i =0; $i < count($current_products); $i++){
     echo display($current_products[$i],$products);
 }
 
-if (isset($_SESSION['sign_in']) && $_SESSION['sign_in']== 1){
+/*if (isset($_SESSION['sign_in']) && $_SESSION['sign_in']== 1){
     echo "LOGGED IN";
 
 }
 
-if (!isset($_SESSION['sign_in']) || $_SESSION['sign_in'] !=1) {
+/*if (!isset($_SESSION['sign_in']) || $_SESSION['sign_in'] !=1) {
 
-    echo "Not Logged in";
-}
+    echo '<span class="not_logged_in">Sign in to Purchase Items</span>';
+}*/
 echo "</div><!--end div.wrapper-->";
 require($_SERVER['DOCUMENT_ROOT'] ."/final2_back_01/template_bottom.inc");
 
