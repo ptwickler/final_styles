@@ -5,6 +5,10 @@ ini_set('display_errors', 1);
 
 error_reporting(E_ALL);
 
+ob_start();
+require_once('FirePHPCore/FirePHP.class.php');
+
+require_once('functions.php');
 
 if (isset($_GET['out']) && $_GET['out']==1){
     session_start();
@@ -37,10 +41,6 @@ if(!isset($_SESSION)) {
 
 ob_start();
 
-require_once('functions.php');
-
-
-
 
 
 $_SESSION['cart'] = array();
@@ -54,12 +54,17 @@ if(isset($_SESSION['out_cart'])) {
 include_once($_SERVER['DOCUMENT_ROOT'] ."/final2_back_01/template_top.inc");
 
 
-//TODO Add an else statement that displays the empty cart window if no items in cart yet
-include_once($_SERVER['DOCUMENT_ROOT'] . "/final2_back_01/products.php");
-
 // This array stores the machine names of the products. It needs to be appended if you want to add another
 // product to the store. The products.php file must also be appended to contain the new item's properties.
 $current_products = array('amethyst','quartzorb','wizard','catseye','dragon','elf');
+
+
+if (isset($_POST['username']) && $_POST['password']) {
+
+    user_cred($_POST['username'],$_POST['password']);
+
+}
+
 
 
 
@@ -68,15 +73,16 @@ for ($i =0; $i < count($current_products); $i++){
     echo display($current_products[$i],$products);
 }
 
-/*if (isset($_SESSION['sign_in']) && $_SESSION['sign_in']== 1){
-    echo "LOGGED IN";
 
-}
-
-/*if (!isset($_SESSION['sign_in']) || $_SESSION['sign_in'] !=1) {
-
-    echo '<span class="not_logged_in">Sign in to Purchase Items</span>';
-}*/
 echo "</div><!--end div.wrapper-->";
-require($_SERVER['DOCUMENT_ROOT'] ."/final2_back_01/template_bottom.inc");
+
+
+//include($_SERVER['DOCUMENT_ROOT'] ."/final2_back_01/template_bottom.inc");
+
+echo '</body>
+</html>';
+
+
+
+
 

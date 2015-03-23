@@ -10,19 +10,8 @@ if(!isset($_SESSION)) {
     session_start();
 }
 
-/*ob_start();
+ob_start();
 require_once('FirePHPCore/FirePHP.class.php');
-
-
-
-if (!$firephp) {
-    ob_start();
-
-    $firephp = FirePHP::getInstance(true);
-
-}*/
-
-//require_once('FirePHPCore/FirePHP.class.php');
 
 include_once('products.php');
 require_once('functions.php');
@@ -61,7 +50,7 @@ if (isset($_SESSION['out_cart'])) {
 
 else {
 
-    /* $url = "http://" . $_SERVER['HTTP_HOST'] . "/php/final2/index.php";
+    /* $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php";
 
      header("Location: ".$url) or die("Didn't work");*/
 
@@ -95,9 +84,6 @@ echo '<!DOCTYPE html>
 </div>';
 
 
-
-
-
 if (isset($_GET['mail']) && $_GET['mail'] == 1) {
     confirm_email($_SESSION['username']);
 
@@ -106,3 +92,5 @@ if (isset($_GET['mail']) && $_GET['mail'] == 1) {
 
 
 
+'</body>
+</html>';

@@ -5,6 +5,87 @@ ini_set('display_errors', 1);
 
 error_reporting(E_ALL);
 
+#----------------------#
+# Product List         #
+#----------------------#
+
+$products = array(
+    'quartzorb' => array(
+        'img' => 'quartzorb',
+        'name' => 'Quartz Orb',
+        'material' => 'quartz',
+        'price' => '30.00',
+        'weight' => '2lbs'
+    ),
+
+    'amethyst'=> array(
+        'img' => 'amethyst',
+        'name' => 'Amethyst',
+        'material' => 'amethyst',
+        'price' => '10.00',
+        'weight'=> '.5lbs'
+    ),
+
+    'catseye'=> array(
+        'img' => 'catseye',
+        'name' => 'Cats Eye',
+        'material' => 'cats eye',
+        'price' => '3.00',
+        'weight' => '.02lbs'
+    ),
+
+    'wizard' => array(
+        'img' => 'wizard',
+        'name' => 'Wizard',
+        'material' => 'pewter and quartz',
+        'price' => '40.00',
+        'weight' => '1lb'
+    ),
+
+    'dragon' => array(
+        'img' => 'dragon',
+        'name' => 'Dragon',
+        'material' => 'pewter and amethyst',
+        'price' => '50.00',
+        'weight' => '3lbs'
+    ),
+
+    'elf' => array(
+        'img'=> 'elf',
+        'name' => 'Elf',
+        'material' => 'pewter',
+        'price' => '20.00',
+        'weight' => '2lbs'
+    )
+);
+
+
+// Grabs the items out of the cart and gets their relevant details from the array in products.php which it then pushes
+// into the "out cart" which will be used to create the shopping cart page.
+/*function add_to_cart($products,$item,$quantity,$cart) {
+
+
+    $cart = $cart;
+    $order_quantity = $quantity;
+    $item = $item;
+    $products = $products;
+    $_SESSION['out_cart'][$item]['name'] =$item;
+    $_SESSION['out_cart'][$item]['quantity'] = $order_quantity;
+}
+
+
+if($_SESSION['sign_in'] == 1) {
+    add_to_cart($products, $item, $quantity, $cart);
+    $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php";
+    header("Location: ".$url) or die("Didn't work");
+}
+
+else {
+
+    $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?signed=0";
+    header("Location: ".$url) or die("Didn't work");
+}*/
+
 
 #----------------------#
 # Functions  checkout  #
@@ -47,7 +128,7 @@ function confirm_email($user) {
 
 
                 if ($mail) {
-                    echo "Thank you for your purchase, ". $user . ". An email with your purhcase receipt has been sent to your email address.<br><br>
+                    echo "Thank you for your purchase, ". $user . ". An email with your purchase receipt has been sent to your email address.<br><br>
                     Your friends at Crystals, Charms, and Coffees";
                 }
 
@@ -57,46 +138,25 @@ function confirm_email($user) {
         }
     }
 
-
-    $p_items = '';
-    /*foreach($_SESSION['out_cart'] as $key=>$value) {
-        foreach ($value as $item=>$property) {
-
-            if ($item == 'name') {
-                $p_items .= $property;
-                echo $p_items;
-            }
-
-
-        }
-    }
-*/
-    /*    $to = "support@example.com";  //for testing purposes, this should be YOUR email address.
-        $from = $_GET['email'];
-        $email_subject = $_GET['subject'];
-
-    #now mail
-        mail($to, $email_subject, $message, "From: ".$from);*/
-
 }
 
-function build_out_cart($cart,$products){
+function build_out_cart($cart=NULL,$products){
 
     $out_cart = '';
     $total = 0;
 
-
-    foreach($cart as $key=>$value) {
+if ($cart) {
+    foreach ($cart as $key => $value) {
         $product = $products[$key];
 
-        $out_cart .= '<tr><td class="checkout_name">' . $product['name'] . '</td><td class="checkout_quantity">' . $cart[$key]['quantity'] . '</td><td class="checkout_price">$' . $product['price'] * intval($cart[$key]['quantity']) .'.00</td></tr>';
+        $out_cart .= '<tr><td class="checkout_name">' . $product['name'] . '</td><td class="checkout_quantity">' . $cart[$key]['quantity'] . '</td><td class="checkout_price">$' . $product['price'] * intval($cart[$key]['quantity']) . '.00</td></tr>';
         $total += $product['price'] * intval($cart[$key]['quantity']);
 
     }
 
-    $out_cart .= '</tbody></table><div class="total_price"> Your Total: $' .$total . '.00';
+    $out_cart .= '</tbody></table><div class="total_price"> Your Total: $' . $total . '.00</div>';
     return $out_cart;
-
+}
 }
 
 
@@ -191,8 +251,27 @@ function register_display() {
 // logged in. If the password isn't found, it suggests you try again. If the user isn't found, it displays
 // the registration form.
 function user_cred($username,$pw) {
-    $username = $username;
-    $pw = $pw;
+    if(isset($_GET['register_new']) && $_GET['register_new'] == 1) {
+
+        register_display();
+    }
+
+    if(isset($_GET['new_use']) && $_GET['new_use'] ==1){
+
+
+        $user_name = $_POST['name'];
+        $user_email = $_POST['email'];
+        $user_pw = $_POST['password'];
+
+        new_user($user_name,$user_email,$user_pw);
+        ob_clean();
+        $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?i";
+
+        header("Location: " . $url) or die("didn't redirect from login");
+    }
+
+    $username = $_POST['username'];
+    $pw = $_POST['password'];
 
     $g = 0; // Counter to limit the display of the "register here" verbiage.
 
@@ -201,14 +280,18 @@ function user_cred($username,$pw) {
     for ($i = 0; $i < count($user_list); $i++){
         $line = explode(",",$user_list[$i]);
 
+
         for ($c = 0; $c < count($line); $c++) {
-            $user_match = preg_match('/^' . $username . '$/', $line[$c], $matches);
+            $user_match =  preg_match('/^' . $username . '$/', $line[$c], $matches);
+
+
 
             if ($matches) {
 
-                for ($p = 0; $p < count($line);$p++) {
+                for ($p = 0; $p < count($line); $p++) {
 
-                    $pw_match = preg_match('/^' . $pw . '$/', $line[$p], $match);
+                   $pw_match =  preg_match('/^' . $pw . '$/', $line[$p], $match);
+
 
                     if ($match) {
                         $_SESSION['sign_in'] = 1;
@@ -217,23 +300,17 @@ function user_cred($username,$pw) {
                         ob_clean();
                         header("Location: " . $url) or die("didn't redirect from login");
 
-                        //echo "logging in no worries";
-                    }
 
-                    elseif (!$match) {
+                    } elseif (!$match) {
                         echo "Wrong Password, jerko";
                     }
                 }
-            }
-
-            elseif(!$matches){
-                if ($g==1) break;
+            } elseif ($matches) {
+                if ($g == 1) break;
                 echo '<div>You do not seem to be registered. Click <a href="login.php?register_new=1">here</a> to register.</div>';
                 $g++; // Increments counter to control the number of times the above verbiage and link are displayed.
 
             }
-
         }
     }
-
 }

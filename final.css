@@ -22,7 +22,7 @@ div.banner {
 
 */
 .product_display {
-    /*border: 1px solid red;*/
+    border: 1px solid black;
     width: 200px;
     height: 200px;
     position: relative;
@@ -45,8 +45,8 @@ div.banner {
 }
 
 .prod_img {
-    width: 200px;
-    height: 200px;
+    width: 195px;
+    height: 195px;
 }
 
 .prod_img img {
@@ -128,7 +128,7 @@ td {
 
 
 body {
-    /* background-color: #cadef8;*/
+    background-color: #cadef8;
     /*border: 1px solid black;*/
 }
 
@@ -140,6 +140,8 @@ div.cart_display {
     /*border: 1px solid orange;*/
     position: relative;
     float: left;
+
+
 }
 
 div.login {

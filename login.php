@@ -20,10 +20,10 @@ session_start();
 
 
 //require_once('FirePHPCore/FirePHP.class.php');
-require_once("index.php");
+include_once("index.php");
 
-require_once("products.php");
-require_once('functions.php');
+
+include_once('functions.php');
 
 
 
@@ -35,7 +35,7 @@ if (!$firephp) {
 }*/
 
 // If the register_new value in the GET is set and == 1, display the form for registering a new user.
-if(isset($_GET['register_new']) && $_GET['register_new'] == 1) {
+/*if(isset($_GET['register_new']) && $_GET['register_new'] == 1) {
 
     register_display();
 }
@@ -55,10 +55,10 @@ if(isset($_GET['new_use']) && $_GET['new_use'] ==1){
 
     new_user($user_name,$user_email,$user_pw);
     ob_clean();
-    $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php";
+    $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?i";
 
     header("Location: " . $url) or die("didn't redirect from login");
-}
+}*/
 
 
 

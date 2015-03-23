@@ -14,33 +14,46 @@
 
 
 <?php
+
+ob_start();
+require_once('FirePHPCore/FirePHP.class.php');
+
+
+
+/*if (!$firephp) {
+    ob_start();
+
+    $firephp = FirePHP::getInstance(true);
+
+}*/
+
 include_once('products.php');
-print '<div class="cart_display"><form name="checkout_button" action="checkout.php" method="POST">';
+print '<div class="cart_display">';
 if (isset($_SESSION['sign_in']) && $_SESSION['sign_in'] == 1) {
     echo "Your Cart:<br>";
+    print '<form name="checkout_button" action="checkout.php" method="POST">';
+
     if (isset($_SESSION['out_cart'])) {
         foreach ($_SESSION['out_cart'] as $key => $value) {
 
             $product = $products[$key];
 
             print '<input class="checkout_list" name="checkout_button" type="text" readonly value="' . $product['name'] . ': ' . $value["quantity"] . '"> <br>';
-
-
         }
-        print '<input type="submit" value="Complete Checkout" ></form>
-</div><!--end div.cart_display-->';
+
     }
+
+    print '<input type="submit" value="Complete Checkout" ></form>';
 }
+print '</div><!--end div.cart_display-->';
 
-elseif (!isset($_SESSION['sign_in'])) {
-    print  '<input name="checkout_button" type="text" readonly ><span class="require_auth">Sign in to Purchase Items</span><br></form></div><!--end div.cart_display-->';
 
-}
+echo '<div class="banner">
+        <img class="banner" src="img/banner.jpg">
+      </div><!--end div.banner-->
 
-echo '<div class="banner"><img class="banner" src="img/banner.jpg"></div><!--end div.banner-->';
-?>
 <div class="login">
-    <form class="login" value="Sign In" action="login.php?log=1" method="POST">
+    <form class="login" action="index.php" method="POST">
         <label for="username">Name</label><br>
         <input class="login" type="text" size="20" name="username"/><br>
         <label for="password" class ="login">Password</label><br>
@@ -48,13 +61,18 @@ echo '<div class="banner"><img class="banner" src="img/banner.jpg"></div><!--end
         <input type="submit" value="Sign In">
     </form>
 
-<div class="sign_out">
-    <form class="login" action="index.php?out=1" method="GET">
-        <input type="text" name="out" value="1" hidden>
-        <input type="submit" value="Sign Out">
-    </form>
-</div><!--end div.sign_out-->
-</div><!--end div.login-->
+    <div class="sign_out">
+       <form class="login" action="index.php?out=1" method="GET">
+          <input type="text" name="out" value="1" hidden>
+          <input type="submit" value="Sign Out">
+       </form>';
+
+    if (!isset($_SESSION['sign_in'])) {
+       print  '<span class="require_auth">Sign in to Purchase Items</span>';
+
+    }
+    echo '</div><!--end div.sign_out-->
+</div><!--end div.login-->';
 
 
 
