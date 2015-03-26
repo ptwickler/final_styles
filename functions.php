@@ -238,7 +238,6 @@ function register_display($session) {
 
 if (isset($session['valid']['name']) && $session['valid']['name'] == 'name_error' ) {
 
-
        $register_display =  '<form name="register" action="index.php?new_user=1" method="POST">
              <label for="name">Enter your name</label>
              <input type="text" size="20" name="username"><span class="form_error">Please enter a valid username.</span>
@@ -250,6 +249,19 @@ if (isset($session['valid']['name']) && $session['valid']['name'] == 'name_error
            </form>';
 
     }
+
+elseif(isset($session['valid']['email']) && $session['valid']['email'] == 'email_error' ) {
+    $register_display =  '<form name="register" action="index.php?new_user=1" method="POST">
+             <label for="name">Enter your name</label>
+             <input type="text" size="20" name="username">
+             <label for="email">Enter your email address</label>
+             <input type="text" size="20" name="email"><span class="form_error">Please enter a valid email address.</span>
+             <label for="password">Enter a password</label>
+             <input type="text" size="20" name="password">
+             <input type="submit" value="Click to register!">
+           </form>';
+
+}
     else {
         $register_display = '<form name="register" action="index.php?new_user=1" method="POST">
              <label for="name">Enter your name</label>
@@ -275,10 +287,6 @@ if (isset($session['valid']['name']) && $session['valid']['name'] == 'name_error
 // the registration form.
 function user_cred($username,$pw,$query=array()) {
     $user_info = $query;
-   /* if(isset($query['register_new']) && $query['register_new'] == 1) {
-
-        register_display();
-    }*/
 
 
     // Form validation and processing. If the new_user
@@ -286,16 +294,13 @@ function user_cred($username,$pw,$query=array()) {
 
         $name_test = $user_info['username'];
 
-
-
-
        if ($name_test != null && $name_test != '') {
            $user_name = $name_test['username'];
        }
 
-
        // I have set $user_info to the query (POST) and so now I pass that along instead of the $_POST. I hope to
-       // avoid confusion by doing so.
+       // avoid confusion by doing so. Whether or not the $_POST['email'] property is set is the test for distinguishing
+       // the regular non-validation path from the form validation path.
        elseif (($name_test == '' || $name_test == null) && isset($_POST['email'])) {
            $_SESSION['valid']['name'] = 'name_error';
           $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?register_new=1";
@@ -305,6 +310,18 @@ function user_cred($username,$pw,$query=array()) {
 
         }
         $user_email = $_POST['email'];
+        if ($user_email && $user_email != null) {
+            $email_check = filter_var($user_email, FILTER_VALIDATE_EMAIL);
+        }
+
+        if($user_email == null || $email_check != true){
+            $_SESSION['valid']['email'] = 'email_error';
+            $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?register_new=1";
+
+            header("Location: " . $url) or die("didn't redirect from login");
+
+        }
+
         $user_pw = $_POST['password'];
 
         new_user($user_name,$user_email,$user_pw);
