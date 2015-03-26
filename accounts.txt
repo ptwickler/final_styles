@@ -11,3 +11,6 @@ John,peter.twickler@gmail.com,pass
 John,utgardsloki@yahoo.com,pass
 Hugg,peter.twickler@gmail.com,pass
 Joo,uoouo@ljl.com,pass
+cold,cold@cold.com,pass
+Dude,pod@pod.com,pass
+gold,pod@pod.com,pass

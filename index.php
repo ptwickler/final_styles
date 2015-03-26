@@ -59,13 +59,28 @@ include_once($_SERVER['DOCUMENT_ROOT'] ."/final2_back_01/template_top.inc");
 $current_products = array('amethyst','quartzorb','wizard','catseye','dragon','elf');
 
 
-if (isset($_POST['username']) && $_POST['password']) {
+if (isset($_POST['username']) && isset($_POST['password'])) {
 
-    user_cred($_POST['username'],$_POST['password']);
+    user_cred($_POST['username'],$_POST['password'],$_POST);
 
 }
 
+if (isset($_GET['register_new']) && $_GET['register_new'] == 1) {
 
+ register_display($_POST);
+
+}
+
+/*if (isset($_GET['new_user']) && $_GET['new_user']  == 1){
+
+    if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email]'])) {
+
+
+
+        new_user($_POST['username'], $_POST['password'], $_POST['email]']);
+
+    }
+}*/
 
 
 $disp = '';

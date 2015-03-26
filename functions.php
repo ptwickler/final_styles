@@ -91,11 +91,10 @@ else {
 # Functions  checkout  #
 #----------------------#
 // finish the out_cart indexing to pull in the items.n
-function confirm_email($user) {
+function confirm_email($user,$products) {
+   // $items = $products;
     $message = "<html><head><head><body><br><br><br><br><br><br><br>" . $user.", thank you for buying this stuff.<br>Your Purchases:";
 
-
-    include('/Library/WebServer/Documents/final2_back_01/products.php');
     $user_list = file('accounts.txt');
     for($i=0; $i < count($user_list);$i++) {
         $line = explode(",",$user_list[$i]);
@@ -227,18 +226,31 @@ function new_user($user,$pass,$email) {
 }
 
 
-function register_display() {
-    print '<form name="register" action="login.php?new_use=1" method="POST">
+function register_display($query) {
+
+if (isset($query_string['name_error']) && $query_string['name_error'] ==1) {
+       echo '<form name="register" action="index.php?new_user=1" method="POST">
              <label for="name">Enter your name</label>
-             <input type="text" size="20" name="name">
+             <input type="text" size="20" name="username"><span class="form_error">Please enter a valid username.</span>
              <label for="email">Enter your email address</label>
              <input type="text" size="20" name="email">
              <label for="password">Enter a password</label>
              <input type="text" size="20" name="password">
              <input type="submit" value="Click to register!">
-
-
            </form>';
+
+    }
+    else {
+        echo '<form name="register" action="index.php?new_user=1" method="POST">
+             <label for="name">Enter your name</label>
+             <input type="text" size="20" name="username">
+             <label for="email">Enter your email address</label>
+             <input type="text" size="20" name="email">
+             <label for="password">Enter a password</label>
+             <input type="text" size="20" name="password">
+             <input type="submit" value="Click to register!">
+           </form>';
+    }
 }
 
 /*
@@ -250,22 +262,38 @@ function register_display() {
 // it then iterates through the same line again looking for the password. If both are found, the user is
 // logged in. If the password isn't found, it suggests you try again. If the user isn't found, it displays
 // the registration form.
-function user_cred($username,$pw) {
-    if(isset($_GET['register_new']) && $_GET['register_new'] == 1) {
+function user_cred($username,$pw,$query=array()) {
+    $user_info = $query;
+   /* if(isset($query['register_new']) && $query['register_new'] == 1) {
 
         register_display();
-    }
-
-    if(isset($_GET['new_use']) && $_GET['new_use'] ==1){
+    }*/
 
 
-        $user_name = $_POST['name'];
+    // Form validation and processing. If the new_user
+    if(isset($_GET['new_user']) && $_GET['new_user'] ==1){
+        $name_test = $_POST['username'];
+
+
+
+
+       if (isset($name_test) && ($name_test != null && $name_test != '')) {
+           $user_name = $_POST['username'];
+       }
+
+
+       // I have set $user_info to the query (POST) and so now I pass that along instead of the $_POST. I hope to
+       // avoid confusion by doing so.
+       if ($name_test == '' || $name_test == null) {
+            $user_info['name_error'] = 1;
+            register_display($user_info);
+        }
         $user_email = $_POST['email'];
         $user_pw = $_POST['password'];
 
         new_user($user_name,$user_email,$user_pw);
         ob_clean();
-        $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?i";
+        $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php";
 
         header("Location: " . $url) or die("didn't redirect from login");
     }
@@ -305,12 +333,14 @@ function user_cred($username,$pw) {
                         echo "Wrong Password, jerko";
                     }
                 }
-            } elseif ($matches) {
+            } elseif (!$matches) {
                 if ($g == 1) break;
-                echo '<div>You do not seem to be registered. Click <a href="login.php?register_new=1">here</a> to register.</div>';
+                echo '<div>You do not seem to be registered. Click <a href="index.php?register_new=1">here</a> to register.</div>';
                 $g++; // Increments counter to control the number of times the above verbiage and link are displayed.
 
             }
         }
     }
+    //TODO: THis is probably not needed. Remove once verified not needed or remove this TODO
+    return $_POST;
 }

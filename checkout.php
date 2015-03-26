@@ -13,7 +13,7 @@ if(!isset($_SESSION)) {
 ob_start();
 require_once('FirePHPCore/FirePHP.class.php');
 
-include_once('products.php');
+
 require_once('functions.php');
 
 print '<!DOCTYPE html>
@@ -85,7 +85,7 @@ echo '<!DOCTYPE html>
 
 
 if (isset($_GET['mail']) && $_GET['mail'] == 1) {
-    confirm_email($_SESSION['username']);
+    confirm_email($_SESSION['username'],$products);
 
 }
 

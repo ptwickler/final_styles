@@ -27,7 +27,7 @@ require_once('FirePHPCore/FirePHP.class.php');
 
 }*/
 
-include_once('products.php');
+
 print '<div class="cart_display">';
 if (isset($_SESSION['sign_in']) && $_SESSION['sign_in'] == 1) {
     echo "Your Cart:<br>";

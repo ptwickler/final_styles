@@ -177,3 +177,8 @@ div.not_logged_in_indicator {
     width: 10px;
     border-radius: 10px;
 }
+
+span.form_error {
+    font-weight: bold;
+    color: red;
+}
