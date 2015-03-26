@@ -1,9 +1,17 @@
 <?php
 date_default_timezone_set ( 'America/New_York' );
-
+session_start();
 ini_set('display_errors', 1);
 
 error_reporting(E_ALL);
+
+ob_start();
+require_once('FirePHPCore/FirePHP.class.php');
+if (!$firephp) {
+    ob_start();
+
+    $firephp = FirePHP::getInstance(true);
+}
 
 #----------------------#
 # Product List         #
@@ -226,10 +234,12 @@ function new_user($user,$pass,$email) {
 }
 
 
-function register_display($query) {
+function register_display($session) {
 
-if (isset($query_string['name_error']) && $query_string['name_error'] ==1) {
-       echo '<form name="register" action="index.php?new_user=1" method="POST">
+if (isset($session['valid']['name']) && $session['valid']['name'] == 'name_error' ) {
+
+
+       $register_display =  '<form name="register" action="index.php?new_user=1" method="POST">
              <label for="name">Enter your name</label>
              <input type="text" size="20" name="username"><span class="form_error">Please enter a valid username.</span>
              <label for="email">Enter your email address</label>
@@ -241,7 +251,7 @@ if (isset($query_string['name_error']) && $query_string['name_error'] ==1) {
 
     }
     else {
-        echo '<form name="register" action="index.php?new_user=1" method="POST">
+        $register_display = '<form name="register" action="index.php?new_user=1" method="POST">
              <label for="name">Enter your name</label>
              <input type="text" size="20" name="username">
              <label for="email">Enter your email address</label>
@@ -251,6 +261,7 @@ if (isset($query_string['name_error']) && $query_string['name_error'] ==1) {
              <input type="submit" value="Click to register!">
            </form>';
     }
+    return $register_display;
 }
 
 /*
@@ -272,21 +283,26 @@ function user_cred($username,$pw,$query=array()) {
 
     // Form validation and processing. If the new_user
     if(isset($_GET['new_user']) && $_GET['new_user'] ==1){
-        $name_test = $_POST['username'];
+
+        $name_test = $user_info['username'];
 
 
 
 
-       if (isset($name_test) && ($name_test != null && $name_test != '')) {
-           $user_name = $_POST['username'];
+       if ($name_test != null && $name_test != '') {
+           $user_name = $name_test['username'];
        }
 
 
        // I have set $user_info to the query (POST) and so now I pass that along instead of the $_POST. I hope to
        // avoid confusion by doing so.
-       if ($name_test == '' || $name_test == null) {
-            $user_info['name_error'] = 1;
-            register_display($user_info);
+       elseif (($name_test == '' || $name_test == null) && isset($_POST['email'])) {
+           $_SESSION['valid']['name'] = 'name_error';
+          $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?register_new=1";
+
+           header("Location: " . $url) or die("didn't redirect from login");
+
+
         }
         $user_email = $_POST['email'];
         $user_pw = $_POST['password'];
@@ -344,3 +360,4 @@ function user_cred($username,$pw,$query=array()) {
     //TODO: THis is probably not needed. Remove once verified not needed or remove this TODO
     return $_POST;
 }
+$firephp->log($_SESSION, 'session');

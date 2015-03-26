@@ -17,7 +17,7 @@
 
 ob_start();
 require_once('FirePHPCore/FirePHP.class.php');
-
+session_start();
 
 
 /*if (!$firephp) {
@@ -48,7 +48,7 @@ if (isset($_SESSION['sign_in']) && $_SESSION['sign_in'] == 1) {
 print '</div><!--end div.cart_display-->';
 
 
-echo '<div class="banner">
+echo '<!--<div class="banner">
         <img class="banner" src="img/banner.jpg">
       </div><!--end div.banner-->
 

@@ -1,12 +1,14 @@
 <?php
 
 
+
+
 ini_set('display_errors', 1);
 
 error_reporting(E_ALL);
 
 ob_start();
-require_once('FirePHPCore/FirePHP.class.php');
+
 
 require_once('functions.php');
 
@@ -40,11 +42,21 @@ if(!isset($_SESSION)) {
 }
 
 ob_start();
+require_once('FirePHPCore/FirePHP.class.php');
 
+if (!$firephp) {
+    ob_start();
 
+    $firephp = FirePHP::getInstance(true);
+}
 
 $_SESSION['cart'] = array();
-// I use includes to build the head and end of the html page
+
+// The valid property of the session will be used to store values for form validation. If it's set, don't change it,
+// but if it's not set, set it.
+if (!isset($_SESSION['valid'])) {
+    $_SESSION['valid'] = array();
+}
 
 
 if(isset($_SESSION['out_cart'])) {
@@ -67,7 +79,15 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 if (isset($_GET['register_new']) && $_GET['register_new'] == 1) {
 
- register_display($_POST);
+
+
+
+ $register_display = register_display($_SESSION);
+
+
+
+
+    echo $register_display;
 
 }
 
@@ -92,7 +112,7 @@ for ($i =0; $i < count($current_products); $i++){
 echo "</div><!--end div.wrapper-->";
 
 
-//include($_SERVER['DOCUMENT_ROOT'] ."/final2_back_01/template_bottom.inc");
+$firephp->log($_SESSION, 'session');
 
 echo '</body>
 </html>';
