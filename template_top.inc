@@ -17,7 +17,11 @@
 
 ob_start();
 require_once('FirePHPCore/FirePHP.class.php');
-session_start();
+
+if (!isset($_SESSION)) {
+    session_start();
+
+}
 
 
 /*if (!$firephp) {

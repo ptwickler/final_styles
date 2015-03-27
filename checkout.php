@@ -81,6 +81,10 @@ echo '<!DOCTYPE html>
   <input type="text" hidden name="mail" value="1">
   <input type="submit" value="complete purchase">
 </form>
+</div>
+<div>
+  <a href="index.php">Continue Shopping!</a>
+
 </div>';
 
 

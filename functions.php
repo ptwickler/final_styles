@@ -101,7 +101,7 @@ else {
 // finish the out_cart indexing to pull in the items.n
 function confirm_email($user,$products) {
    // $items = $products;
-    $message = "<html><head><head><body><br><br><br><br><br><br><br>" . $user.", thank you for buying this stuff.<br>Your Purchases:";
+    $message = "<html><head></head><body><br><br><br><br><br><br><br>" . $user.", thank you for buying this stuff.<br>Your Purchases:";
 
     $user_list = file('accounts.txt');
     for($i=0; $i < count($user_list);$i++) {
@@ -217,6 +217,7 @@ function new_user($user,$pass,$email) {
 
 
     $n_user = $user;
+
     $n_pass = $pass;
     $n_email = $email;
 
@@ -262,6 +263,19 @@ elseif(isset($session['valid']['email']) && $session['valid']['email'] == 'email
            </form>';
 
 }
+
+elseif(isset($session['valid']['password']) && $session['valid']['password'] == 'password_error' ) {
+    $register_display =  '<form name="register" action="index.php?new_user=1" method="POST">
+             <label for="name">Enter your name</label>
+             <input type="text" size="20" name="username">
+             <label for="email">Enter your email address</label>
+             <input type="text" size="20" name="email"
+             <label for="password">Enter a password</label>
+             <input type="text" size="20" name="password"><span class="form_error">Please enter a valid password.</span>
+             <input type="submit" value="Click to register!">
+           </form>';
+
+}
     else {
         $register_display = '<form name="register" action="index.php?new_user=1" method="POST">
              <label for="name">Enter your name</label>
@@ -289,13 +303,15 @@ function user_cred($username,$pw,$query=array()) {
     $user_info = $query;
 
 
-    // Form validation and processing. If the new_user
+    // Form validation and processing. If the new_user variable is set, test the form inputs and then process.
     if(isset($_GET['new_user']) && $_GET['new_user'] ==1){
+
 
         $name_test = $user_info['username'];
 
+
        if ($name_test != null && $name_test != '') {
-           $user_name = $name_test['username'];
+           $user_name = $name_test;
        }
 
        // I have set $user_info to the query (POST) and so now I pass that along instead of the $_POST. I hope to
@@ -323,6 +339,12 @@ function user_cred($username,$pw,$query=array()) {
         }
 
         $user_pw = $_POST['password'];
+        if ($user_pw == null or !isset($user_pw)){
+            $_SESSION['valid']['password'] = 'password_error';
+            $url = "http://" . $_SERVER['HTTP_HOST'] . "/final2_back_01/index.php?register_new=1";
+
+            header("Location: " . $url) or die("didn't redirect from login");
+        }
 
         new_user($user_name,$user_email,$user_pw);
         ob_clean();
